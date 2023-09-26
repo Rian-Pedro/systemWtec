@@ -3,9 +3,11 @@ import { StyleSheet, View, Text, TextInput } from "react-native"
 import MaskInput from "react-native-mask-input";
 
 import { MaterialIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-export default ({ set, type, name, placeholder }) => {
+
+export default ({ set, type, name, placeholder, data, nameObj, setShow }) => {
 
   const [inputValue, setInputValue] = useState("");
 
@@ -17,14 +19,37 @@ export default ({ set, type, name, placeholder }) => {
       <Text style={styles.title}>{name}:</Text>
 
       {!type &&
-        <TextInput 
-          style={styles.input} 
-          value={inputValue} 
-          onChangeText={(e) => {
-            setInputValue(e) 
-            set(e)
-          }} 
-          placeholder={placeholder} />
+        <View style={styles.inputContainer}>
+          <TextInput 
+            style={styles.input} 
+            value={inputValue} 
+            onChangeText={(e) => {
+              setInputValue(e);
+              set({...data, [nameObj]: e});
+              console.log(data, name);
+            }} 
+            placeholder={placeholder} 
+          />
+        </View>
+      }
+
+      {type == "selectUF" &&
+        <View style={styles.inputSelect} onTouchStart={() => {
+          console.log("teste")
+          setShow(true)
+        }}>
+          <Feather name="map-pin" size={25} color="#FF820E" />
+          <Text style={{color: "#848484", fontSize: 15}}>Selecione o estado</Text>
+          <MaterialIcons name="keyboard-arrow-down" size={24} color="#FF820E" style={{flex: 1, textAlign: "right"}} />
+        </View>
+      }
+
+      {type == "selectMuni" &&
+        <View style={styles.inputSelect}>
+          <Ionicons name="ios-home" size={25} color="#FF820E" />
+          <Text style={{color: "#848484", fontSize: 15}}>Selecione o município</Text>
+          <MaterialIcons name="keyboard-arrow-down" size={24} color="#FF820E" style={{flex: 1, textAlign: "right"}} />
+        </View>
       }
 
       {type == "pass" &&
@@ -40,7 +65,6 @@ export default ({ set, type, name, placeholder }) => {
             placeholder={placeholder}
             cursorColor="#FF820E"
             selectionColor="#FF820E"
-            // underlineColorAndroid="#FF820E"
           />
           <View onTouchStart={() => setIsVisiblePass(!isVisiblePass)}>
             {isVisiblePass ? 
@@ -86,18 +110,26 @@ export default ({ set, type, name, placeholder }) => {
   );
 }
 
+const padrao = {
+  paddingVertical: 6,
+  paddingHorizontal: 10,
+  backgroundColor: "#fff",
+  fontSize: 14,
+  borderTopRightRadius: 5,
+  borderTopLeftRadius: 5,
+  borderBottomWidth: 1,
+  borderBottomColor: "#FF820E",
+  flexDirection: "row",
+  gap: 15
+}
+
 const styles = StyleSheet.create({
   inputContainer: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    backgroundColor: "#fff",
-    fontSize: 14,
-    borderTopRightRadius: 5,
-    borderTopLeftRadius: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: "#FF820E",
-    flexDirection: "row",
-    gap: 15
+    ...padrao,
+  },
+  inputSelect: {
+    ...padrao,
+    // justifyContent: "space-between"
   },
   input: {
     flex: 1,
