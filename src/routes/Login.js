@@ -1,14 +1,19 @@
-import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
+import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, Modal, SafeAreaView } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
-import Input from "../components/input";
+import { FontAwesome } from '@expo/vector-icons';
+
 import { useState } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
+import CpfInput from "../components/inputs/CpfInput"
+import PassInput from "../components/inputs/PassInput";
+import User from "../services/User";
+
 const boxStyle = {
-  borderRadius: 1, 
-  borderWidth: 1, 
-  width: 18,  
-  height: 18, 
+  borderRadius: 1,
+  borderWidth: 1,
+  width: 18,
+  height: 18,
   borderColor: "#FF820E"
 }
 
@@ -18,11 +23,26 @@ const innerBoxStyle = {
   height: 18
 }
 
+const icons = {
+  cpf: <FontAwesome name="id-card" size={25} color="#FF820E" />,
+  lock: <FontAwesome name="lock" size={25} color="#FF820E" />
+}
+
 export default function Login({ navigation }) {
   
   const [CPF, setCPF] = useState("");
   const [pass, setPass] = useState("");
   const [checkBoxState, setCheckBoxState] = useState(false);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [textError, setTextError] = useState("");
+  const [isLoading, setIsLoading] = useState(null);
+
+  const [user, setUser] = useState({
+    cpf: "",
+    pass: "",
+    remember: false
+  });
   
   return (
     <>
@@ -40,7 +60,7 @@ export default function Login({ navigation }) {
         </View>
         
         <Image 
-          source={require("../assets/logo2.png")} 
+          source={require("../../assets/logo2.png")} 
           resizeMode="contain" 
           style={{
             width: 300, 
@@ -50,19 +70,19 @@ export default function Login({ navigation }) {
 
         <Text style={styles.welcome}>Bem-vindo(a) de volta!</Text>
 
-
         <View style={styles.containerForm}>
-          <Input 
-            set={setCPF} 
-            name="CPF" 
-            type="cpf" 
+
+          <CpfInput 
+            data={user}
+            nomeObj="cpf"
+            set={setUser}
+            icon={icons.cpf}
           />
 
-          <Input 
-            set={setPass} 
-            name="Senha" 
-            type="pass" 
-            placeholder="************" 
+          <PassInput 
+            data={user}
+            set={setUser}
+            nomeObj="pass"
           />
 
           <View style={{
@@ -80,17 +100,24 @@ export default function Login({ navigation }) {
                 fontSize: 16, 
                 fontWeight: "600"
               }}
-              isChecked={checkBoxState}
+              isChecked={user.remember}
               onPress={() => {
-                setCheckBoxState(!checkBoxState);
+                setUser({...user, remember: !user.remember});
                 console.log(checkBoxState);
               }}
             />
             <Text style={styles.forget}>Esqueceu a senha?</Text>
           </View>
 
-          <View style={styles.btn} onTouchStart={() => {
-            console.log(`senha: ${pass}\ncpf: ${CPF}`);
+          <TouchableOpacity style={styles.btn} onPress={() => {
+            setIsLoading(true);
+            setAlertOpen(true);
+            const teste = new User(user, 
+                                   setAlertOpen, 
+                                   setTextError, 
+                                   navigation, 
+                                   setIsLoading);
+            teste.login();
           }} >
             <Text 
               style={{
@@ -99,16 +126,52 @@ export default function Login({ navigation }) {
                 fontWeight: "bold", 
                 color: "#fff"
               }}> Entrar </Text>
-          </View>
+
+          </TouchableOpacity>
         </View>
-        <Text>
-          Ainda não possui uma conta? <Text style={{
+
+        <Text>Ainda não possui uma conta? 
+          <Text style={{
             color: "#FF820E", 
             textDecorationLine: "underline"
           }}>
-            Crie uma agora</Text>
+          Crie uma agora</Text>
         </Text>
       </View>
+
+      <Modal
+        visible={alertOpen}
+        transparent={true}
+        animationType="fade"
+      > 
+          <SafeAreaView style={styles.alert}>
+
+            {isLoading && 
+              <View style={styles.alertCard}>
+                <Text>Aguarde</Text>
+              </View>
+            }
+
+            {!isLoading &&
+              <View style={styles.alertCard}>
+                <Text>{textError}</Text>
+                <TouchableOpacity 
+                  style={{
+                    backgroundColor: "#FF820E", 
+                    paddingVertical: 5, 
+                    paddingHorizontal: 20, 
+                    borderRadius: 5
+                  }}
+                  onPress={() => setAlertOpen(false)}
+                >
+                  <Text style={{color: "#fff"}}>Ok</Text>
+                </TouchableOpacity>
+              </View>  
+            }
+          </SafeAreaView>
+
+      </Modal>
+
     </>
   )
 }
@@ -157,5 +220,18 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: -35,
     marginTop: -20
+  },
+  alert: {
+    backgroundColor: "rgba(0, 0, 0, 0.28)",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  alertCard: {
+    backgroundColor: "#fff",
+    padding: 20,
+    alignItems: "center",
+    gap: 20,
+    borderRadius: 10
   }
 });

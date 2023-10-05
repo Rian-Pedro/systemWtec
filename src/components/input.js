@@ -1,13 +1,16 @@
 import { useRef, useState } from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native"
 import MaskInput from "react-native-mask-input";
+import Selection from "./Selection"
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-export default ({ set, type, name, placeholder, data, nameObj, setShow }) => {
+import api from "../services/ibgeApi";
+
+export default ({ set, type, name, placeholder, data, nameObj, icon, keyboard }) => {
 
   const [inputValue, setInputValue] = useState("");
 
@@ -20,6 +23,7 @@ export default ({ set, type, name, placeholder, data, nameObj, setShow }) => {
 
       {!type &&
         <View style={styles.inputContainer}>
+          {icon}
           <TextInput 
             style={styles.input} 
             value={inputValue} 
@@ -29,26 +33,8 @@ export default ({ set, type, name, placeholder, data, nameObj, setShow }) => {
               console.log(data, name);
             }} 
             placeholder={placeholder} 
+            keyboardType={keyboard == "numeric" ? "numeric" : "default"}
           />
-        </View>
-      }
-
-      {type == "selectUF" &&
-        <View style={styles.inputSelect} onTouchStart={() => {
-          console.log("teste")
-          setShow(true)
-        }}>
-          <Feather name="map-pin" size={25} color="#FF820E" />
-          <Text style={{color: "#848484", fontSize: 15}}>Selecione o estado</Text>
-          <MaterialIcons name="keyboard-arrow-down" size={24} color="#FF820E" style={{flex: 1, textAlign: "right"}} />
-        </View>
-      }
-
-      {type == "selectMuni" &&
-        <View style={styles.inputSelect}>
-          <Ionicons name="ios-home" size={25} color="#FF820E" />
-          <Text style={{color: "#848484", fontSize: 15}}>Selecione o município</Text>
-          <MaterialIcons name="keyboard-arrow-down" size={24} color="#FF820E" style={{flex: 1, textAlign: "right"}} />
         </View>
       }
 
@@ -87,7 +73,7 @@ export default ({ set, type, name, placeholder, data, nameObj, setShow }) => {
 
       {type == "cpf" && 
         <View style={styles.inputContainer}>
-          <AntDesign name="user" size={25} color="#FF820E" />
+          {icon}
           <MaskInput 
             style={styles.input}
             value={inputValue}

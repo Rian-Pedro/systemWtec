@@ -5,9 +5,10 @@ import { StyleSheet, Text, View, StatusBar  } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Home from './routes/Home';
-import Login from './routes/Login';
-import Register from './routes/Register';
+import Home from './src/routes/Home';
+import Login from './src/routes/Login';
+import Register from './src/routes/Register';
+import Menu from './src/routes/Menu';
 
 const Stack = new createStackNavigator();
 
@@ -17,6 +18,7 @@ function MyStacks() {
       <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
       <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
       <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
+      <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}} />
     </Stack.Navigator>
   )
 }

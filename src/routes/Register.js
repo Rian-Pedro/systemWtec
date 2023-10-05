@@ -1,9 +1,18 @@
-import { View, Text, Image, StyleSheet, StatusBar, ScrollView } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
+import { View, Text, Image, StyleSheet, StatusBar, ScrollView, TouchableOpacity } from "react-native";
 
 import Input from "../components/input";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useState } from "react";
+import Selection from "../components/Selection";
+import SelectionMuni from "../components/SelectionMuni";
+
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { Zocial } from '@expo/vector-icons';
+import InputTel from "../components/InputTel";
+import userApi from "../services/User";
+import CpfInput from "../components/inputs/CpfInput";
+import PassInput from "../components/inputs/PassInput";
 
 const boxStyle = {
   borderRadius: 1, 
@@ -17,6 +26,14 @@ const innerBoxStyle = {
   borderRadius: 1,
   width: 18,
   height: 18
+}
+
+const icons = {
+  user: <AntDesign name="user" size={25} color="#FF820E" />,
+  email: <Zocial name="email" size={25} color="#FF820E" />,
+  cpf: <FontAwesome name="id-card" size={25} color="#FF820E" />,
+  tel: <FontAwesome name="phone" size={25} color="#FF820E" />,
+  lock: <FontAwesome name="lock" size={25} color="#FF820E" />
 }
 
 export default function Register({ navigation }) {
@@ -46,7 +63,7 @@ export default function Register({ navigation }) {
         </View>
         
         <Image 
-          source={require("../assets/logo2.png")} 
+          source={require("../../assets/logo2.png")} 
           resizeMode="contain" 
           style={{
             width: 300, 
@@ -60,9 +77,10 @@ export default function Register({ navigation }) {
           <Input 
             name="Nome" 
             nameObj="name"
-            placeholder="teste"
+            placeholder="Digite aqui o seu nome"
             set={setUser}
             data={user}
+            icon={icons.user}
           />
 
           <Input 
@@ -71,38 +89,42 @@ export default function Register({ navigation }) {
             placeholder="Digite aqui o seu e-mail"
             set={setUser}
             data={user}
+            icon={icons.email}
           />
 
-          <Input 
-            name="CPF"
-            nameObj="cpf"
-            placeholder="XXX.XXX.XXX-XX"
+          <CpfInput 
             set={setUser}
             data={user}
+            nomeObj="cpf"
+            icon={icons.cpf}
           />
 
-          <Input 
-            name="Estado"
-            type="selectUF"
-            placeholder="Selecione o estado"
-            setShow={setShowSelection}
+          <Selection 
+            set={setUser}
+            data={user}
+            nomeObj={"UF"}
+            title="Estado"
+          />
+          
+          <SelectionMuni 
+            set={setUser}
+            data={user}
+            nomeObj="municipio"
+            title="Municipio"
           />
 
-          <Input 
-            name="Município"
-            type="selectMuni"
-            placeholder="Selecione o município"
+          <InputTel 
+            set={setUser}
+            data={user}
+            icon={icons.tel}
+            title="Telefone"
+            nomeObj="telefone"
           />
 
-          <Input 
-            name="Telefone"
-            placeholder="(xx) xxxxx-xxxx"
-          />
-
-          <Input 
-            name="Senha"
-            placeholder="************"
-            type="pass"
+          <PassInput 
+            data={user}
+            set={setUser}
+            nomeObj="pass"
           />
           
           <Input 
@@ -137,9 +159,9 @@ export default function Register({ navigation }) {
             <Text style={styles.forget}>Esqueceu a senha?</Text>
 
           </View>
-
-          <View style={styles.btn} onTouchStart={() => {
-            console.log(`senha: ${pass}\ncpf: ${CPF}`);
+          
+          <TouchableOpacity style={styles.btn} onPress={() => {
+            
           }} >
             <Text 
               style={{
@@ -148,7 +170,7 @@ export default function Register({ navigation }) {
                 fontWeight: "bold", 
                 color: "#fff"
               }}> Entrar </Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <Text>
           Ainda não possui uma conta? <Text style={{
@@ -171,7 +193,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     minHeight: "100vh",
     gap: 85,
-    backgroundColor: "#F1F1F1"
+    backgroundColor: "#F1F1F1",
+    paddingBottom: 100
   },
   btn: {
     paddingHorizontal: 123,
