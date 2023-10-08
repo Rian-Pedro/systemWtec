@@ -14,9 +14,9 @@ export default function({icon, set, data, title, nomeObj}) {
           <MaskInput 
             style={styles.input}
             value={inputValue}
-            onChangeText={(masked, unmasked, ob) => {
+            onChangeText={(masked) => {
               setInputValue(masked);
-              set({...data, [nomeObj]: unmasked});
+              set({...data, [nomeObj]: masked});
               console.log(data);
             }}
             maxLength={15}

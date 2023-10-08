@@ -38,6 +38,8 @@ export default function Login({ navigation }) {
   const [textError, setTextError] = useState("");
   const [isLoading, setIsLoading] = useState(null);
 
+  const { UserLogin } = User;
+
   const [user, setUser] = useState({
     cpf: "",
     pass: "",
@@ -83,6 +85,7 @@ export default function Login({ navigation }) {
             data={user}
             set={setUser}
             nomeObj="pass"
+            title="Senha"
           />
 
           <View style={{
@@ -112,29 +115,33 @@ export default function Login({ navigation }) {
           <TouchableOpacity style={styles.btn} onPress={() => {
             setIsLoading(true);
             setAlertOpen(true);
-            const teste = new User(user, 
-                                   setAlertOpen, 
-                                   setTextError, 
-                                   navigation, 
-                                   setIsLoading);
+            const teste = new UserLogin(user, 
+                                        setAlertOpen, 
+                                        setTextError, 
+                                        navigation, 
+                                        setIsLoading);
             teste.login();
           }} >
             <Text 
-              style={{
+              style={
+              {
                 textAlign: "center", 
                 fontSize: 18, 
                 fontWeight: "bold", 
                 color: "#fff"
-              }}> Entrar </Text>
+              }
+            }> Entrar </Text>
 
           </TouchableOpacity>
         </View>
 
         <Text>Ainda não possui uma conta? 
-          <Text style={{
-            color: "#FF820E", 
-            textDecorationLine: "underline"
-          }}>
+          <Text style={
+                {
+                  color: "#FF820E", 
+                  textDecorationLine: "underline"
+                }
+          }>
           Crie uma agora</Text>
         </Text>
       </View>
@@ -156,12 +163,14 @@ export default function Login({ navigation }) {
               <View style={styles.alertCard}>
                 <Text>{textError}</Text>
                 <TouchableOpacity 
-                  style={{
-                    backgroundColor: "#FF820E", 
-                    paddingVertical: 5, 
-                    paddingHorizontal: 20, 
-                    borderRadius: 5
-                  }}
+                  style={
+                    {
+                      backgroundColor: "#FF820E", 
+                      paddingVertical: 5, 
+                      paddingHorizontal: 20, 
+                      borderRadius: 5
+                    }
+                  }
                   onPress={() => setAlertOpen(false)}
                 >
                   <Text style={{color: "#fff"}}>Ok</Text>

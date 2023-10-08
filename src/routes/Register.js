@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, StatusBar, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, StatusBar, ScrollView, TouchableOpacity, Modal, SafeAreaView } from "react-native";
 
 import Input from "../components/input";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
@@ -13,6 +13,8 @@ import InputTel from "../components/InputTel";
 import userApi from "../services/User";
 import CpfInput from "../components/inputs/CpfInput";
 import PassInput from "../components/inputs/PassInput";
+
+import User from "../services/User";
 
 const boxStyle = {
   borderRadius: 1, 
@@ -41,16 +43,23 @@ export default function Register({ navigation }) {
   const [checkBoxState, setCheckBoxState] = useState(false);
 
   const [user, setUser] = useState({
-    name: "",
+    nome: "",
     email: "",
     cpf: "",
-    UF: "",
-    municio: "",
+    estado: "",
+    municipio: "",
     telefone: "",
-    pass: "",
+    senha: "",
+    confirmPass: ""
   });
 
   const [showSelection, setShowSelection] = useState(false);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [textError, setTextError] = useState("");
+
+  const { UserRegister } = User;
 
   return (
     <>
@@ -76,7 +85,7 @@ export default function Register({ navigation }) {
         <View style={styles.containerForm}>
           <Input 
             name="Nome" 
-            nameObj="name"
+            nameObj="nome"
             placeholder="Digite aqui o seu nome"
             set={setUser}
             data={user}
@@ -102,7 +111,7 @@ export default function Register({ navigation }) {
           <Selection 
             set={setUser}
             data={user}
-            nomeObj={"UF"}
+            nomeObj="estado"
             title="Estado"
           />
           
@@ -124,13 +133,15 @@ export default function Register({ navigation }) {
           <PassInput 
             data={user}
             set={setUser}
-            nomeObj="pass"
+            nomeObj="senha"
+            title="Senha"
           />
           
-          <Input 
-            name="Confirmar Senha"
-            placeholder="************"
-            type="pass"
+          <PassInput 
+            data={user}
+            set={setUser}
+            nomeObj="confirmPass"
+            title= "Confirmar Senha"
           />
 
           <View style={{
@@ -161,7 +172,8 @@ export default function Register({ navigation }) {
           </View>
           
           <TouchableOpacity style={styles.btn} onPress={() => {
-            
+            const teste = new UserRegister(user, setAlertOpen, setTextError, setIsLoading, navigation);
+            teste.register();
           }} >
             <Text 
               style={{
@@ -172,6 +184,7 @@ export default function Register({ navigation }) {
               }}> Entrar </Text>
           </TouchableOpacity>
         </View>
+
         <Text>
           Ainda não possui uma conta? <Text style={{
             color: "#FF820E", 
@@ -182,6 +195,41 @@ export default function Register({ navigation }) {
         
       </View>
       </ScrollView>
+
+      <Modal
+        visible={alertOpen}
+        transparent={true}
+        animationType="fade"
+      > 
+          <SafeAreaView style={styles.alert}>
+
+            {isLoading && 
+              <View style={styles.alertCard}>
+                <Text>Aguarde</Text>
+              </View>
+            }
+
+            {!isLoading &&
+              <View style={styles.alertCard}>
+                <Text>{textError}</Text>
+                <TouchableOpacity 
+                  style={
+                    {
+                      backgroundColor: "#FF820E", 
+                      paddingVertical: 5, 
+                      paddingHorizontal: 20, 
+                      borderRadius: 5
+                    }
+                  }
+                  onPress={() => setAlertOpen(false)}
+                >
+                  <Text style={{color: "#fff"}}>Ok</Text>
+                </TouchableOpacity>
+              </View>  
+            }
+          </SafeAreaView>
+
+      </Modal>
     </>
   )
 }
@@ -231,5 +279,18 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: -35,
     marginTop: -20
+  },
+  alert: {
+    backgroundColor: "rgba(0, 0, 0, 0.28)",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  alertCard: {
+    backgroundColor: "#fff",
+    padding: 20,
+    alignItems: "center",
+    gap: 20,
+    borderRadius: 10
   }
 });

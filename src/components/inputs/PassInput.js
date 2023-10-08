@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 
 import { useState } from "react";
 
-export default ({set, data, nomeObj}) => {
+export default ({set, data, nomeObj, title}) => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -14,7 +14,7 @@ export default ({set, data, nomeObj}) => {
 
   return (
     <>
-      <Text style={styles.title}>Senha:</Text>
+      <Text style={styles.title}>{title}:</Text>
       <View style={styles.inputContainer}>
         {showError && 
           <View style={styles.cardError}>

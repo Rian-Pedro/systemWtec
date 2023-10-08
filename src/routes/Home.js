@@ -8,15 +8,12 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       
-      {/* <View style={styles.header}>
-        <Image source={require("../../assets/logo.png")} resizeMode="contain" style={styles.logo} />
-      </View> */}
       <Header />
 
       <ImageBackground source={require("../../assets/HomeBack.png")} style={styles.main}>
         <View style={{paddingHorizontal: 35}}>
           <Text style={{fontWeight: "600", fontSize: 20}}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.
+            Facilite a resolução de problemas de iluminação pública em sua cidade
           </Text>
           <Image source={require("../../assets/lamp.png")} resizeMode="contain" style={styles.lamp} />
         </View>

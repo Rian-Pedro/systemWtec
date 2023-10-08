@@ -27,7 +27,7 @@ export default function({ set, data, nomeObj, title }) {
         setModalVisible(true);
       }}>
         <Feather name="map-pin" size={25} color="#FF820E" />
-        <Text style={{color: "#848484", fontSize: 15}}>{!data.UF ? "Selecione o estado" : data.UF}</Text>
+        <Text style={{color: "#848484", fontSize: 15}}>{!data.estado ? "Selecione o estado" : data.estado}</Text>
         <MaterialIcons name="keyboard-arrow-down" size={24} color="#FF820E" style={{flex: 1, textAlign: "right"}} />
       </TouchableOpacity>
 

@@ -16,15 +16,15 @@ export default function({set, data, nomeObj, title}) {
 
   useEffect(() => {
     
-    if(data.UF) {
-      api.get(`/${data.UF}/municipios`)
+    if(data.estado) {
+      api.get(`/${data.estado}/municipios`)
       .then((response) => {
         setMuniList(response.data)
-        console.log(muniList, data.UF, response.data);
+        console.log(muniList, data.estado, response.data);
       });
     }
 
-  }, [data.UF]);
+  }, [data.estado]);
 
   return (
     <>
