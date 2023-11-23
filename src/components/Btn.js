@@ -1,10 +1,11 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
-export default ({ title, navigation }) => {
-
+export default ({ title, navigation, to }) => {
   return (
-    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Perfil")}>
+    <TouchableOpacity 
+      style={styles.btn} 
+      onPress={() => navigation.navigate(to)}
+    >
       <Text style={styles.btnText}>{title}</Text>
     </TouchableOpacity>
   );

@@ -3,7 +3,6 @@ import { useState } from "react";
 import MaskInput from "react-native-mask-input";
 
 export default function({icon, set, data, title, nomeObj}) {
-
   const [inputValue, setInputValue] = useState("");
 
   return (

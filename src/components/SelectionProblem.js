@@ -1,45 +1,24 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, 
-         View, 
-         Text, 
-         Modal, 
-         TouchableOpacity, 
-         SafeAreaView, 
-         ScrollView } from "react-native";
-
-import api from "../services/ibgeApi";
+import { useState } from "react"
+import { Modal, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Text } from "react-native"
+import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
 
+export default ({title, data, set}) => {
 
-export default function({set, data, nomeObj, title}) {
+  const [modalVisible, setModalVisible] = useState(false)
 
-  const [muniList, setMuniList] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  useEffect(() => {
-    
-    if(data.estado) {
-      api.get(`/${data.estado}/municipios`)
-      .then((response) => {
-        setMuniList(response.data)
-        console.log(muniList, data.estado, response.data);
-      });
-    }
-
-  }, [data.estado]);
+  const problems = ["Lâmpada Queimada", "Poste Apagado"]
 
   return (
     <>
       <Text style={styles.title}>{title}:</Text>
-
-      <TouchableOpacity 
-        style={styles.inputSelect} 
-        onPress={() => {setModalVisible(true);}}
+      <TouchableOpacity
+        style={styles.inputSelect}
+        onPress={() => setModalVisible(true)}
       >
-        <Ionicons 
-          name="ios-home" 
+        <Entypo 
+          name="box" 
           size={25} 
           color="#FF820E" 
         />
@@ -47,15 +26,15 @@ export default function({set, data, nomeObj, title}) {
         <Text 
           style={{
             color: "#848484", 
-            fontSize: 15}}
+            fontSize: 15
+          }}
         >
-          {!data.municipio ? "Selecione o municipio" : data.municipio}
+          {!data ? "Selecione o problema" : data}
         </Text>
 
         <MaterialIcons 
           name="keyboard-arrow-down" 
-          size={24} 
-          color="#FF820E" 
+          size={24} color="#FF820E" 
           style={{
             flex: 1, 
             textAlign: "right"
@@ -69,41 +48,37 @@ export default function({set, data, nomeObj, title}) {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-
-          <SafeAreaView style={{backgroundColor: "#FF820E"}}>
-            <ScrollView>
-              <View 
-                style={styles.containerBtn} 
-                onTouchStart={() => setModalVisible(false)}
-              >
+        <SafeAreaView style={{backgroundColor: "#FF820E", flex: 1}}>
+          <ScrollView>
+            <TouchableOpacity
+              style={styles.containerBtn}
+              onPress={() => setModalVisible(false)}
+            >
               <AntDesign 
                 name="back" 
                 size={25} 
                 color="#FF820E" 
               />
-            </View>
+            </TouchableOpacity>
 
-            {muniList.length > 0 ?
-            muniList.map(municipio => (
+            {problems.map((problem, index) => (
               <TouchableOpacity
+                key={index}
                 style={styles.containerSelection}
                 onPress={() => {
-                  set({...data, [nomeObj]: municipio.nome});
+                  set(problem)
                   setModalVisible(false);
                 }}
-                key={municipio.id}
               >
-                <Text style={{color: "#fff"}}>{municipio.nome}</Text>
+                <Text style={{color:"#fff"}}>{problem}</Text>
               </TouchableOpacity>
-            ))
-            : <Text>Selecione primeiro o seu estado</Text>}
-            </ScrollView>
-          </SafeAreaView>
-        
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+
       </Modal>
     </>
-  );
-
+  )
 }
 
 const padrao = {

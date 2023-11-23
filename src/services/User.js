@@ -2,11 +2,28 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const api = axios.create({
-  baseURL: "https://api-gip-061089ba42d7.herokuapp.com/users",
-  headers: {
-    Authorization: "Basic amNhOmpjYQ=="
-  }
+  baseURL: "http://192.168.0.108:3000",
+
 });
+
+// const testeImg = async (img) => {
+//   const formData = new FormData()
+
+//   formData.append("image", 'teste')
+
+//   api.post("/imageUser", formData)
+//     .then((response) => {
+//       console.log(response.data)
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+// }
+
+const verifyToken = async (token) => {
+  const result = await api.post('/login', {token: token})
+  return result.data
+}
 
 class UserLogin {
   constructor(body, setAlertOpen, setTextError, navigation, setIsLoading) {
@@ -19,45 +36,48 @@ class UserLogin {
     this.permission = null;
   }
 
+  static async setUserImg(img, id) {
+    const formData = new FormData()
+
+    formData.append("image", {
+      uri: img.assets[0].uri,
+      type: "image/jpeg",
+      name: `${id}-imageUser.jpg`
+    })
+
+    api.post(`/imageUser?userId=${id}`, formData, {
+      headers: {
+        'Content-Type': "multipart/form-data"
+      }
+    })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   async login() {
-    const get = await api.get("");
+    const get = await api.post("/login", {cpf: this.body.cpf, senha: this.body.pass});
 
-    if(get.data.length > 0) {
-      get.data.forEach(user => {
-        this.compare("O usúario com esse CPF não foi encontrado!", 
-                     user.cpf, 
-                     this.body.cpf);
-  
-        if(this.userExists) this.compare("A senha de usúario está incorreta!", 
-                                         user.senha, 
-                                         this.body.pass);
-  
-        if(this.permission) {
-          this.setAlertOpen(false);
-          this.armazena(user);
-          this.navigation.navigate("Menu");
-        }
-  
-      });
+    console.log(get.data)
+    console.log(this.body)
+
+    if(get.data.status !== 200) {
+      this.setIsLoading(false)
+      this.setTextError(get.data.message)
     } else {
-      this.permission = false;
-      this.setTextError("O usúario com esse CPF não foi encontrado!");
-      this.setIsLoading(false);
+      await this.armazena(get.data.token, this.body.remember)
+      this.setIsLoading(false)
+      this.setAlertOpen(false)
+      this.navigation.navigate('Menu')
     }
   }
 
-  async armazena(user) {
-    await AsyncStorage.setItem("@userInfo", JSON.stringify(user));
-  }
-
-  compare(msg, userData, userThis) {
-    if(userData == userThis) {
-      this.permission = true;
-    } else {
-      this.permission = false;
-      this.setTextError(msg);
-      this.setIsLoading(false);
-    }
+  async armazena(token, remember) {
+    await AsyncStorage.setItem("@token", JSON.stringify(token));
+    await AsyncStorage.setItem("@remember", JSON.stringify(remember));
   }
 
 }
@@ -68,17 +88,18 @@ class UserRegister extends UserLogin {
           setAlertOpen, 
           setTextError, 
           navigation);
-
-          this.setIsLoading = setIsLoading;
+          
+    this.setIsLoading = setIsLoading;
   }
 
   async register() {
     if(this.emptyCamp()) return;
     if(this.verifyPass()) return;
 
-    const post = await api.post("", this.body);
-
-    if(post.status == 201) {
+    const post = await api.post("/registerUser", this.body);
+    console.log(post.data)
+    if(post.data.status == 201) {
+      this.setIsLoading(false);
       this.setAlertOpen(false);
       this.navigation.navigate("Login");
     }
@@ -106,6 +127,4 @@ class UserRegister extends UserLogin {
   }
 }
 
-const teste = 0;
-
-export default { UserLogin, UserRegister}
+export default { UserLogin, UserRegister, verifyToken}

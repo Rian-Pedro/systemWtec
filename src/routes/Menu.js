@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar } from "react-native"
+import { StyleSheet, View, StatusBar } from "react-native"
 import Header from "../components/Header";
 import Btn from "../components/Btn";
 import Container from "../components/utilities/Container";
@@ -7,7 +7,10 @@ export default ({ navigation }) => {
 
   return (
     <Container>
-      <StatusBar backgroundColor="#FF820E" barStyle={"light-content"}/>
+      <StatusBar 
+        backgroundColor="#FF820E" 
+        barStyle={"light-content"}
+      />
       <Header title="Principal" />
       <View style={styles.areaBtn}>
         <Btn 
@@ -18,12 +21,12 @@ export default ({ navigation }) => {
         <Btn 
           title="Criar Ocorrencia" 
           navigation={navigation} 
-          to=""
+          to="MakeOS"
         />
         <Btn 
           title="Minhas Ocorrencias" 
           navigation={navigation} 
-          to=""
+          to="ShowOS"
         />
       </View>
     </Container>

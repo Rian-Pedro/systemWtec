@@ -1,4 +1,10 @@
-import { StyleSheet, View, Text, ScrollView, ScrollViewBase, FlatList, TouchableOpacity, Modal, SafeAreaView } from "react-native";
+import { StyleSheet, 
+         View, 
+         Text, 
+         ScrollView, 
+         TouchableOpacity, 
+         Modal, 
+         SafeAreaView } from "react-native";
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -23,12 +29,33 @@ export default function({ set, data, nomeObj, title }) {
   return (
     <>
       <Text style={styles.title}>{title}:</Text>
-      <TouchableOpacity style={styles.inputSelect} onPress={() => {
-        setModalVisible(true);
-      }}>
-        <Feather name="map-pin" size={25} color="#FF820E" />
-        <Text style={{color: "#848484", fontSize: 15}}>{!data.estado ? "Selecione o estado" : data.estado}</Text>
-        <MaterialIcons name="keyboard-arrow-down" size={24} color="#FF820E" style={{flex: 1, textAlign: "right"}} />
+      <TouchableOpacity 
+        style={styles.inputSelect} 
+        onPress={() => {setModalVisible(true);}}
+      >
+
+        <Feather 
+          name="map-pin" 
+          size={25} 
+          color="#FF820E" 
+        />
+        <Text 
+          style={{
+            color: "#848484", 
+            fontSize: 15
+          }}
+        >
+          {!data.estado ? "Selecione o estado" : data.estado}
+        </Text>
+
+        <MaterialIcons 
+          name="keyboard-arrow-down" 
+          size={24} color="#FF820E" 
+          style={{
+            flex: 1, 
+            textAlign: "right"
+          }} 
+        />
       </TouchableOpacity>
 
       <Modal
@@ -42,7 +69,12 @@ export default function({ set, data, nomeObj, title }) {
             style={styles.containerBtn} 
             onTouchStart={() => setModalVisible(false)}
           >
-            <AntDesign name="back" size={25} color="#FF820E" />
+            <AntDesign 
+              name="back" 
+              size={25} 
+              color="#FF820E" 
+            />
+
           </View>
             {ufList.map(uf => (
               <TouchableOpacity 

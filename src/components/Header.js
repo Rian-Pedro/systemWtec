@@ -5,11 +5,22 @@ export default ({ title, back, navigation }) => {
   return (
     <View style={styles.header}>
       {back &&
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-          <MaterialIcons name="keyboard-arrow-left" size={25} color="#fff" />
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()} 
+          style={styles.back}
+        >
+          <MaterialIcons 
+            name="keyboard-arrow-left" 
+            size={25} 
+            color="#fff" 
+          />
         </TouchableOpacity>
       }
-      <Image source={require("../../assets/logo.png")} resizeMode="contain" style={styles.logo} />
+      <Image 
+        source={require("../../assets/logo.png")} 
+        resizeMode="contain" 
+        style={styles.logo} 
+      />
       {title && 
         <View style={styles.boxText}>
           <Text style={styles.pageTitle}>{title}</Text>

@@ -4,7 +4,12 @@ export default ({ title, info }) => {
   return (
     <View style={styles.box}>
       <Text style={styles.title}>{title}:</Text>
-      <Text style={{fontWeight: "600", fontSize: 16}}>{info}</Text>
+      <Text 
+        style={{
+          fontWeight: "600", 
+          fontSize: 16
+        }}
+      >{info}</Text>
     </View>
   );
 }

@@ -2,12 +2,14 @@ import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity, Modal, Safe
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CpfInput from "../components/inputs/CpfInput"
 import PassInput from "../components/inputs/PassInput";
 import User from "../services/User";
+import { Link } from "@react-navigation/native";
 
 const boxStyle = {
   borderRadius: 1,
@@ -30,8 +32,6 @@ const icons = {
 
 export default function Login({ navigation }) {
   
-  const [CPF, setCPF] = useState("");
-  const [pass, setPass] = useState("");
   const [checkBoxState, setCheckBoxState] = useState(false);
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -45,7 +45,36 @@ export default function Login({ navigation }) {
     pass: "",
     remember: false
   });
-  
+
+  useEffect(() => {
+    getToken()
+
+    return
+  }, [])
+
+  const getToken = async () => {
+    try {
+      const userToken = JSON.parse(await AsyncStorage.getItem("@token"))
+      const userRemember = JSON.parse(await AsyncStorage.getItem("@remember"))
+
+      if(userRemember) {
+        const resultVerify = await User.verifyToken(userToken)
+        
+        if(resultVerify.status === 200) {
+          navigation.navigate('Menu')
+        } else {
+          setAlertOpen(true)
+          setTextError(resultVerify.message)
+        }
+      } else {
+        await AsyncStorage.removeItem("@token")
+      }
+      
+    } catch(err) {
+
+    }
+  }
+
   return (
     <>
       <StatusBar backgroundColor="#F1F1F1" />
@@ -88,11 +117,13 @@ export default function Login({ navigation }) {
             title="Senha"
           />
 
-          <View style={{
+          <View 
+            style={{
               flexDirection: "row", 
               justifyContent: "space-between", 
               marginTop: -6
-            }}>
+            }}
+          >
             <BouncyCheckbox 
               innerIconStyle={boxStyle} 
               iconStyle={innerBoxStyle} 
@@ -112,37 +143,44 @@ export default function Login({ navigation }) {
             <Text style={styles.forget}>Esqueceu a senha?</Text>
           </View>
 
-          <TouchableOpacity style={styles.btn} onPress={() => {
-            setIsLoading(true);
-            setAlertOpen(true);
-            const teste = new UserLogin(user, 
-                                        setAlertOpen, 
-                                        setTextError, 
-                                        navigation, 
-                                        setIsLoading);
-            teste.login();
-          }} >
+          <TouchableOpacity 
+            style={styles.btn} 
+            onPress={() => {
+              setIsLoading(true);
+              setAlertOpen(true);
+              const login = new UserLogin(user, 
+                                          setAlertOpen, 
+                                          setTextError, 
+                                          navigation, 
+                                          setIsLoading);
+              login.login();
+            }} 
+          >
             <Text 
-              style={
-              {
+              style={{
                 textAlign: "center", 
                 fontSize: 18, 
                 fontWeight: "bold", 
                 color: "#fff"
-              }
-            }> Entrar </Text>
+              }}
+            > 
+              Entrar 
+            </Text>
 
           </TouchableOpacity>
         </View>
 
-        <Text>Ainda não possui uma conta? 
-          <Text style={
-                {
-                  color: "#FF820E", 
-                  textDecorationLine: "underline"
-                }
-          }>
-          Crie uma agora</Text>
+        <Text>
+          Ainda não possui uma conta? 
+            <Link 
+              to="/Register" 
+              style={{
+                color: "#FF820E", 
+                textDecorationLine: "underline"
+              }}
+            >
+              Crie uma agora
+            </Link>
         </Text>
       </View>
 
@@ -163,14 +201,12 @@ export default function Login({ navigation }) {
               <View style={styles.alertCard}>
                 <Text>{textError}</Text>
                 <TouchableOpacity 
-                  style={
-                    {
-                      backgroundColor: "#FF820E", 
-                      paddingVertical: 5, 
-                      paddingHorizontal: 20, 
-                      borderRadius: 5
-                    }
-                  }
+                  style={{
+                    backgroundColor: "#FF820E", 
+                    paddingVertical: 5, 
+                    paddingHorizontal: 20, 
+                    borderRadius: 5
+                  }}
                   onPress={() => setAlertOpen(false)}
                 >
                   <Text style={{color: "#fff"}}>Ok</Text>

@@ -18,13 +18,34 @@ export default ({set, data, nomeObj, title}) => {
       <View style={styles.inputContainer}>
         {showError && 
           <View style={styles.cardError}>
-            <Text style={{width: "70%", padding: 8}}>A senha precisa possuir no minimo 6 caracteres</Text>
-            <TouchableOpacity style={styles.xCard} onPress={() => setShowError(false)}>
-              <Feather name="x" size={24} color="#fff" />
+            <Text 
+              style={{
+                width: "70%", 
+                padding: 8
+              }}
+            >
+              A senha precisa possuir no minimo 6 caracteres
+            </Text>
+
+            <TouchableOpacity 
+              style={styles.xCard} 
+              onPress={() => setShowError(false)}
+            >
+              <Feather 
+                name="x" 
+                size={24} 
+                color="#fff" 
+              />
+
             </TouchableOpacity>
           </View>
         }
-          <MaterialIcons name="lock" size={25} color="#FF820E" />
+          <MaterialIcons 
+            name="lock" 
+            size={25} 
+            color="#FF820E" 
+          />
+
           <TextInput
             style={styles.input}
             onChangeText={(e) => {
@@ -46,7 +67,10 @@ export default ({set, data, nomeObj, title}) => {
 
           {showX && <Feather name="x" size={20} color="#E30000" style={{alignSelf: "center"}} />}
           
-          <TouchableOpacity style={{flexDirection: "row"}} onPress={() => setIsVisible(!isVisible)}>
+          <TouchableOpacity 
+            style={{flexDirection: "row"}} 
+            onPress={() => setIsVisible(!isVisible)}
+          >
             {isVisible ? 
               <Ionicons 
                 name="eye" 

@@ -10,11 +10,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Zocial } from '@expo/vector-icons';
 import InputTel from "../components/InputTel";
-import userApi from "../services/User";
 import CpfInput from "../components/inputs/CpfInput";
 import PassInput from "../components/inputs/PassInput";
 
 import User from "../services/User";
+import { Link } from "@react-navigation/native";
 
 const boxStyle = {
   borderRadius: 1, 
@@ -53,8 +53,6 @@ export default function Register({ navigation }) {
     confirmPass: ""
   });
 
-  const [showSelection, setShowSelection] = useState(false);
-
   const [alertOpen, setAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [textError, setTextError] = useState("");
@@ -67,8 +65,15 @@ export default function Register({ navigation }) {
       <ScrollView>
       
       <View style={styles.container}>
-        <View style={styles.containerBtn} onTouchStart={() => navigation.goBack()}>
-          <AntDesign name="back" size={25} color="#fff" />
+        <View 
+          style={styles.containerBtn} 
+          onTouchStart={() => navigation.goBack()}
+        >
+          <AntDesign 
+            name="back" 
+            size={25} 
+            color="#fff" 
+          />
         </View>
         
         <Image 
@@ -144,11 +149,13 @@ export default function Register({ navigation }) {
             title= "Confirmar Senha"
           />
 
-          <View style={{
+          <View 
+            style={{
               flexDirection: "row", 
               justifyContent: "space-between", 
               marginTop: -6
-            }}>
+            }}
+          >
 
             <BouncyCheckbox 
               innerIconStyle={boxStyle} 
@@ -171,26 +178,42 @@ export default function Register({ navigation }) {
 
           </View>
           
-          <TouchableOpacity style={styles.btn} onPress={() => {
-            const teste = new UserRegister(user, setAlertOpen, setTextError, setIsLoading, navigation);
-            teste.register();
-          }} >
+          <TouchableOpacity 
+            style={styles.btn} 
+            onPress={() => {
+              const register = new UserRegister(user, 
+                                                setAlertOpen, 
+                                                setTextError, 
+                                                setIsLoading, 
+                                                navigation);
+              register.register();
+            }} 
+          >
             <Text 
               style={{
                 textAlign: "center", 
                 fontSize: 18, 
                 fontWeight: "bold", 
                 color: "#fff"
-              }}> Entrar </Text>
+              }}
+            > 
+              Entrar 
+            </Text>
+
           </TouchableOpacity>
         </View>
 
         <Text>
-          Ainda não possui uma conta? <Text style={{
-            color: "#FF820E", 
-            textDecorationLine: "underline"
-          }}>
-            Crie uma agora</Text>
+          Já possui uma conta? 
+          <Link 
+            to="/Login" 
+            style={{
+              color: "#FF820E", 
+              textDecorationLine: "underline"
+            }}
+          >
+            Faça o login
+          </Link>
         </Text>
         
       </View>
@@ -213,14 +236,12 @@ export default function Register({ navigation }) {
               <View style={styles.alertCard}>
                 <Text>{textError}</Text>
                 <TouchableOpacity 
-                  style={
-                    {
-                      backgroundColor: "#FF820E", 
-                      paddingVertical: 5, 
-                      paddingHorizontal: 20, 
-                      borderRadius: 5
-                    }
-                  }
+                  style={{
+                    backgroundColor: "#FF820E", 
+                    paddingVertical: 5, 
+                    paddingHorizontal: 20, 
+                    borderRadius: 5
+                  }}
                   onPress={() => setAlertOpen(false)}
                 >
                   <Text style={{color: "#fff"}}>Ok</Text>

@@ -10,23 +10,73 @@ export default function Home({ navigation }) {
       
       <Header />
 
-      <ImageBackground source={require("../../assets/HomeBack.png")} style={styles.main}>
-        <View style={{paddingHorizontal: 35}}>
-          <Text style={{fontWeight: "600", fontSize: 20}}>
+      <ImageBackground 
+        source={require("../../assets/HomeBack.png")} 
+        style={styles.main}
+      >
+        <View 
+          style={{
+            paddingHorizontal: 35
+          }}
+        >
+          <Text 
+            style={{
+              fontWeight: "600", 
+              fontSize: 20
+            }}
+          >
             Facilite a resolução de problemas de iluminação pública em sua cidade
           </Text>
-          <Image source={require("../../assets/lamp.png")} resizeMode="contain" style={styles.lamp} />
+
+          <Image 
+            source={require("../../assets/lamp.png")} 
+            resizeMode="contain" 
+            style={styles.lamp} 
+          />
+          
         </View>
       </ImageBackground>
 
       <View style={styles.containerBtns}>
-        <View style={styles.loginButton} onTouchStart={() => navigation.navigate("Login")}>
-          <Text style={{fontSize: 18, fontWeight: "900", color: "#FF820E"}}>Login</Text>
-          <Entypo name="login" size={24} color="#FF820E" />
+        <View 
+          style={styles.loginButton} 
+          onTouchStart={() => navigation.navigate("Login")}
+        >
+          <Text 
+            style={{
+              fontSize: 18, 
+              fontWeight: "900", 
+              color: "#FF820E"
+            }}
+          >
+            Login
+          </Text>
+
+          <Entypo 
+            name="login" 
+            size={24} 
+            color="#FF820E" 
+          />
+
         </View>
-        <View style={styles.registerButton} onTouchStart={() => navigation.navigate("Register")}>
-          <Text style={{fontSize: 18, fontWeight: "900", color: "#fff"}}>Cadastro</Text>
-          <MaterialCommunityIcons name="file-document-edit" size={24} color="#fff" />
+        <View 
+          style={styles.registerButton} 
+          onTouchStart={() => navigation.navigate("Register")}
+        >
+          <Text 
+            style={{
+              fontSize: 18, 
+              fontWeight: "900", 
+              color: "#fff"
+            }}
+          >
+            Cadastro
+          </Text>
+          <MaterialCommunityIcons 
+            name="file-document-edit" 
+            size={24} 
+            color="#fff" 
+          />
         </View>
       </View>
 

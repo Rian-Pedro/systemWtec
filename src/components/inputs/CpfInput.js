@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import { Feather } from '@expo/vector-icons';
 
-
 export default ({icon, set, data, nomeObj}) => {
   const [inputValue, setInputValue] = useState("");
   const [showError, setShowError] = useState(false);
@@ -18,9 +17,24 @@ export default ({icon, set, data, nomeObj}) => {
       {icon}
       {showError && 
         <View style={styles.cardError}>
-          <Text style={{width: "70%", padding: 8}}>O CPF precisa conter 14 caracteres.</Text>
-          <TouchableOpacity style={styles.xCard} onPress={() => setShowError(false)}>
-            <Feather name="x" size={24} color="#fff" />
+          <Text 
+            style={{
+              width: "70%", 
+              padding: 8
+            }}
+          >
+            O CPF precisa conter 14 caracteres.
+          </Text>
+
+          <TouchableOpacity 
+            style={styles.xCard} 
+            onPress={() => setShowError(false)}
+          >
+            <Feather 
+              name="x" 
+              size={24} 
+              color="#fff" 
+            />
           </TouchableOpacity>
         </View>
       }
@@ -47,7 +61,15 @@ export default ({icon, set, data, nomeObj}) => {
         cursorColor="#FF820E"
         selectionColor="#FF820E"
       />
-      {showX && <Feather name="x" size={20} color="#E30000" style={{alignSelf: "center"}} />}
+      {showX && 
+        <Feather 
+          name="x" 
+          size={20} 
+          color="#E30000" 
+          style={{
+            alignSelf: "center"
+          }} 
+        />}
     </View>
     </>
   )

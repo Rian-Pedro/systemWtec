@@ -10,17 +10,51 @@ import Login from './src/routes/Login';
 import Register from './src/routes/Register';
 import Menu from './src/routes/Menu';
 import Perfil from './src/routes/Perfil';
+import MakeOS from './src/routes/MakeOS';
+import ShowOS from './src/routes/ShowOS';
+
+import UserContextProvider from './src/context/UserContext';
 
 const Stack = new createStackNavigator();
 
 function MyStacks() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-      <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-      <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
-      <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}} />
-      <Stack.Screen name="Perfil" component={Perfil} options={{headerShown: false}} />
+      <Stack.Screen 
+        name="Home" 
+        component={Home} 
+        options={{headerShown: false}}
+      />
+      <Stack.Screen 
+        name="Login" 
+        component={Login} 
+        options={{headerShown: false}}
+      />
+      <Stack.Screen 
+        name="Register" 
+        component={Register} 
+        options={{headerShown: false}}
+      />
+      <Stack.Screen 
+        name="Menu" 
+        component={Menu} 
+        options={{headerShown: false}} 
+      />
+      <Stack.Screen 
+        name="Perfil" 
+        component={Perfil} 
+        options={{headerShown: false}} 
+      />
+      <Stack.Screen 
+        name="MakeOS" 
+        component={MakeOS} 
+        options={{headerShown: false}} 
+      />
+      <Stack.Screen 
+        name="ShowOS" 
+        component={ShowOS} 
+        options={{headerShown: false}} 
+      />
     </Stack.Navigator>
   )
 }
