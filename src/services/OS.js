@@ -1,7 +1,10 @@
 import axios from "axios"
 
 const api = axios.create({
-  baseURL: "http://192.168.0.108:3000"
+  baseURL: "https://swt-1gtn.onrender.com",
+  headers: {
+    auth: "dqh2hpGK524&5h",
+  }
 })
 
 class OSservice {
@@ -14,6 +17,7 @@ class OSservice {
 
     for(const key in this.body) {
       if(!this.body[key]) return {status: 401, message: "Todos os campos devem ser preenchidos"}
+      if(typeof this.body[key] == 'undefined') this.body[key] = ""
       formData.append(key, this.body[key]) 
     }
 

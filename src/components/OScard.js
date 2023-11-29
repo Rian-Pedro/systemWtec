@@ -9,7 +9,7 @@ const OScard = ({type, desc, status, first, imgUrl, date, hour}) => {
   console.log(imgUrl)
   return (
     <View style={first ? styles.cardFirst : styles.card}>
-      <Image source={{uri: `http://192.168.0.108:3000/getImg?imgUrl=${imgUrl}`}} style={styles.img} resizeMethod="resize"/>
+      <Image source={{uri: `https://swt-1gtn.onrender.com/getImg?imgUrl=${imgUrl}`}} style={styles.img} resizeMethod="resize"/>
       <View style={styles[status == 1 ? 'P' : status == 2 ? 'A' : 'C']}>
         <View style={styles.textInfo}>
           <View style={styles.cardIcon}>

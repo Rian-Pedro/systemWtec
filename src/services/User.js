@@ -2,23 +2,11 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const api = axios.create({
-  baseURL: "http://192.168.0.108:3000",
-
+  baseURL: "https://swt-1gtn.onrender.com",
+  headers: {
+    auth: "dqh2hpGK524&5h"
+  }
 });
-
-// const testeImg = async (img) => {
-//   const formData = new FormData()
-
-//   formData.append("image", 'teste')
-
-//   api.post("/imageUser", formData)
-//     .then((response) => {
-//       console.log(response.data)
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-// }
 
 const verifyToken = async (token) => {
   const result = await api.post('/login', {token: token})

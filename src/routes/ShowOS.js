@@ -18,6 +18,7 @@ const ShowOS = ({navigation}) => {
 
       const list = await OSservice.getOS(decodedToken.id)
       setOsList(list)
+      console.log(osList)
     })()
   }, [])
 
@@ -49,7 +50,7 @@ const ShowOS = ({navigation}) => {
               first={index == 0}
               date={os.dt_post}
               hour={os.time_post}
-              key={os.id}
+              key={index}
             />
           )) 
           : 

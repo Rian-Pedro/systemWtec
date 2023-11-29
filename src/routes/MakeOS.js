@@ -77,7 +77,7 @@ export default ({navigation}) => {
       desc: descValue,
       type: problem,
       latitude: location.coords.latitude,
-      longitude: location.coords.longitude
+      longitude: location.coords.longitude,
     }
 
     const os = new OSservice(OSbody)
