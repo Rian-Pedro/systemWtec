@@ -4,7 +4,6 @@ Aplicativo criado para facilitar a denuncia de problemas de iluminação publica
 
 # Índice
 - [Instalação](#instalação)
-- [Configuração](#configuração)
 - [Execução](#execução)
 - [Contribuição](#contribuição)
 
