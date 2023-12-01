@@ -33,3 +33,5 @@ Esse projeto foi criado com a contribuição de alguns amigos:
 - @stherjoyce
 - @TwannyPinheiro
 - @CaminhaJoao
+
+![Gif do Giphy](https://media.giphy.com/media/n4oKYFlAcv2AU/giphy.gif)
