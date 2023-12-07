@@ -161,7 +161,7 @@ export default function Register({ navigation }) {
               innerIconStyle={boxStyle} 
               iconStyle={innerBoxStyle} 
               fillColor="#FF820E" 
-              text="Lembrar de mim?" 
+              text="Aceitar termos de uso" 
               textStyle={{
                 textDecorationLine: "none", 
                 fontSize: 16, 
@@ -173,8 +173,6 @@ export default function Register({ navigation }) {
                 console.log(checkBoxState);
               }}
             />
-
-            <Text style={styles.forget}>Esqueceu a senha?</Text>
 
           </View>
           
